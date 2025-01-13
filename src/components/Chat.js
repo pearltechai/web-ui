@@ -34,7 +34,7 @@ const Chat = () => {
     setNewMessage("");
 
     try {
-      const response = await fetch('http://backenddjangoapp.azurewebsites.net/api/chat/messages/chat/', {  // Note: Using relative URL
+      const response = await fetch('https://backenddjangoapp.azurewebsites.net/api/chat/messages/chat/', {  // Note: Using relative URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
