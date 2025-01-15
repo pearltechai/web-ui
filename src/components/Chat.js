@@ -34,11 +34,17 @@ const Chat = () => {
     setNewMessage("");
 
     try {
+      const csrfToken = getCookie('csrftoken');
+      if (!csrfToken) {
+        console.error('CSRF token is missing. Request cannot be sent.');
+        return;
+      }
+
       const response = await fetch('https://backenddjangoapp.azurewebsites.net/api/chat/messages/chat/', {  // Note: Using relative URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRFToken': getCookie('csrftoken'),  // Add CSRF token
+          'X-CSRFToken': csrfToken,  // Add CSRF token
         },
         credentials: 'include',  // Important for cookies
         body: JSON.stringify({ message: newMessage }),
@@ -83,6 +89,7 @@ const Chat = () => {
       const cookies = document.cookie.split(';');
       for (let i = 0; i < cookies.length; i++) {
         const cookie = cookies[i].trim();
+        // Does this cookie string begin with the name we want?
         if (cookie.substring(0, name.length + 1) === (name + '=')) {
           cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
           break;
